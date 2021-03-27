@@ -2,6 +2,7 @@
 // openweather url address
 const baseURL = "http://api.openweathermap.org/data/2.5/weather?zip=";
 const apiKey = "";
+//const apiKey = process.env.API_KEY;
 // Create a new date instance dynamically with JS
 let d = new Date();
 let strMonth = String(d.getMonth() + 1);
@@ -23,16 +24,19 @@ const postData = async (url = "", data = {}) => {
   });
   try {
     const newData = await response.json();
+    console.log(newData);
     return newData;
   } catch (error) {
+    console.log("dooo");
     console.log("error", error);
   }
 };
 
 //get
-document.getElementById("generate").addEventListener("click", performAction);
+//document.getElementById("generate").addEventListener("click", performAction);
 
 function performAction(e) {
+  console.log("perform action");
   const zip = document.getElementById("zip").value;
   if (zip.length === 0) {
     alert("Please enter zip code");
@@ -45,7 +49,8 @@ function performAction(e) {
         let weatherDescription = data.weather;
 
         let userInput = document.getElementById("feelings").value;
-        postData("/add", {
+        console.log(temperature);
+        postData("http://localhost:3000/add", {
           date: newDate,
           city: cityName,
           temperature: temperature,
@@ -60,6 +65,7 @@ const getWeatherData = async (zip) => {
   const res = await fetch(
     baseURL + zip + ",DE&appid=" + apiKey + "&units=metric"
   );
+  console.log("got API");
   try {
     const data = await res.json();
     return data;
@@ -69,12 +75,13 @@ const getWeatherData = async (zip) => {
 };
 
 const updateUI = async () => {
-  const request = await fetch("/all");
+  const request = await fetch("http://localhost:3000/all");
   try {
     const serverData = await request.json();
     document.getElementById("city").innerHTML =
       "Now in <strong>" + serverData.city + "</strong>";
     document.getElementById("date").innerHTML = serverData.date;
+    console.log(serverData);
     if (serverData.weather.length) {
       document.getElementById("weather").innerHTML =
         serverData.weather[0].description;
@@ -86,3 +93,5 @@ const updateUI = async () => {
     console.log("error", error);
   }
 };
+
+export { performAction };
