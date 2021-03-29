@@ -1,8 +1,9 @@
 /* Global Variables */
 // openweather url address
 const baseURL = "http://api.openweathermap.org/data/2.5/weather?zip=";
-const apiKey = "";
+//const apiKey = "ba410cb8ee13d8bf144278b5ae2904e2";
 //const apiKey = process.env.API_KEY;
+
 // Create a new date instance dynamically with JS
 let d = new Date();
 let strMonth = String(d.getMonth() + 1);
@@ -24,10 +25,8 @@ const postData = async (url = "", data = {}) => {
   });
   try {
     const newData = await response.json();
-    console.log(newData);
     return newData;
   } catch (error) {
-    console.log("dooo");
     console.log("error", error);
   }
 };
@@ -36,12 +35,12 @@ const postData = async (url = "", data = {}) => {
 //document.getElementById("generate").addEventListener("click", performAction);
 
 function performAction(e) {
-  console.log("perform action");
   const zip = document.getElementById("zip").value;
   if (zip.length === 0) {
     alert("Please enter zip code");
   } else {
-    getWeatherData(zip)
+    getApiKeys()
+      .then((apiKeys) => getWeatherData(zip, apiKeys))
       .then(function (data) {
         // temperature in celsius
         let temperature = data.main.temp.toFixed(0);
@@ -49,7 +48,6 @@ function performAction(e) {
         let weatherDescription = data.weather;
 
         let userInput = document.getElementById("feelings").value;
-        console.log(temperature);
         postData("http://localhost:3000/add", {
           date: newDate,
           city: cityName,
@@ -61,9 +59,20 @@ function performAction(e) {
       .then(updateUI);
   }
 }
-const getWeatherData = async (zip) => {
+
+const getApiKeys = async () => {
+  const res = await fetch("http://localhost:3000/get_parameters");
+
+  try {
+    const keys = await res.json();
+    return keys;
+  } catch (error) {
+    console.log("error", error);
+  }
+};
+const getWeatherData = async (zip, apiKeys) => {
   const res = await fetch(
-    baseURL + zip + ",DE&appid=" + apiKey + "&units=metric"
+    baseURL + zip + ",DE&appid=" + apiKeys.API_KEY + "&units=metric"
   );
   console.log("got API");
   try {
@@ -81,7 +90,6 @@ const updateUI = async () => {
     document.getElementById("city").innerHTML =
       "Now in <strong>" + serverData.city + "</strong>";
     document.getElementById("date").innerHTML = serverData.date;
-    console.log(serverData);
     if (serverData.weather.length) {
       document.getElementById("weather").innerHTML =
         serverData.weather[0].description;

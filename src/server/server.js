@@ -1,3 +1,10 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
+const apiKey = process.env.API_KEY;
+let projectParameters = {
+  API_KEY: apiKey,
+};
 // Setup empty JS object to act as endpoint for all routes
 let projectData = {};
 
@@ -28,6 +35,12 @@ app.get("/", function (req, res) {
 const port = 3000;
 const server = app.listen(port, () => {
   console.log(`running on localhost: ${port}`);
+});
+
+app.get("/get_parameters", (req, res) => {
+  console.log(projectParameters);
+  console.log(projectParameters.API_KEY);
+  res.send(projectParameters);
 });
 
 app.get("/all", (req, res) => {
