@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>Weather Journal</title>
+    <title>Travel App</title>
     <link
       href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap"
       rel="stylesheet"
@@ -11,11 +11,17 @@
   <body>
     <div id="app">
       <div class="holder headline">
-        <h1>Weather Journal App</h1>
+        <h1>What is your trip destination?</h1>
       </div>
-      <div class="holder city">
-        <label for="city">Enter Zipcode(Germany):</label>
-        <input type="text" id="city" placeholder="enter city's name" />
+      <div id="destination_info">
+        <div class="holder city">
+          <label for="city">City:</label>
+          <input type="text" id="city" placeholder="enter city's name" />
+        </div>
+        <div class="holder date">
+          <label for="date">Date:</label>
+          <input type="date" id="date" placeholder="enter date of your trip" />
+        </div>
       </div>
       <div class="holder feel">
         <label for="feelings">How are you feeling today?</label>
