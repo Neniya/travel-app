@@ -1,8 +1,7 @@
 /* Global Variables */
 // openweather url address
-const baseURL = "http://api.openweathermap.org/data/2.5/weather?zip=";
-//const apiKey = "ba410cb8ee13d8bf144278b5ae2904e2";
-//const apiKey = process.env.API_KEY;
+const baseURL = "http://api.geonames.org/searchJSON?q=";
+//http://api.geonames.org/searchJSON?q=${des}&maxRows=1&username=${GEONAMES_USERNAME}
 
 // Create a new date instance dynamically with JS
 let d = new Date();
@@ -35,12 +34,12 @@ const postData = async (url = "", data = {}) => {
 //document.getElementById("generate").addEventListener("click", performAction);
 
 function performAction(e) {
-  const zip = document.getElementById("zip").value;
-  if (zip.length === 0) {
-    alert("Please enter zip code");
+  const city = document.getElementById("city").value;
+  if (city.length === 0) {
+    alert("Please enter city's name");
   } else {
     getApiKeys()
-      .then((apiKeys) => getWeatherData(zip, apiKeys))
+      .then((apiKeys) => getWeatherData(city, apiKeys))
       .then(function (data) {
         // temperature in celsius
         let temperature = data.main.temp.toFixed(0);
@@ -70,13 +69,14 @@ const getApiKeys = async () => {
     console.log("error", error);
   }
 };
-const getWeatherData = async (zip, apiKeys) => {
+const getWeatherData = async (city, apiKeys) => {
   const res = await fetch(
-    baseURL + zip + ",DE&appid=" + apiKeys.API_KEY + "&units=metric"
+    `${baseURL}${city}&maxRows=1&username=${apiKeys.API_GEONAMES}`
   );
   console.log("got API");
   try {
     const data = await res.json();
+    console.log(data);
     return data;
   } catch (error) {
     console.log("error", eror);

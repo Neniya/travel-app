@@ -1,9 +1,9 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
-const apiKey = process.env.API_KEY;
+const API_GEONAMES = process.env.API_GEONAMES;
 let projectParameters = {
-  API_KEY: apiKey,
+  API_GEONAMES: API_GEONAMES,
 };
 // Setup empty JS object to act as endpoint for all routes
 let projectData = {};
