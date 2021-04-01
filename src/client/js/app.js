@@ -1,7 +1,6 @@
 /* Global Variables */
 // openweather url address
 const baseURL = "http://api.geonames.org/searchJSON?q=";
-//http://api.geonames.org/searchJSON?q=${des}&maxRows=1&username=${GEONAMES_USERNAME}
 
 // Create a new date instance dynamically with JS
 let d = new Date();
@@ -39,23 +38,34 @@ function performAction(e) {
     alert("Please enter city's name");
   } else {
     getApiKeys()
-      .then((apiKeys) => getWeatherData(city, apiKeys))
+      .then((apiKeys) => getGeonamesData(city, apiKeys))
       .then(function (data) {
         // temperature in celsius
-        let temperature = data.main.temp.toFixed(0);
-        let cityName = data.name;
-        let weatherDescription = data.weather;
+        // let temperature = data.main.temp.toFixed(0);
+        // let cityName = data.name;
+        // let weatherDescription = data.weather;
 
-        let userInput = document.getElementById("feelings").value;
-        postData("http://localhost:3000/add", {
-          date: newDate,
-          city: cityName,
-          temperature: temperature,
-          userInput: userInput,
-          weather: weatherDescription,
-        });
-      })
-      .then(updateUI);
+        // let userInput = document.getElementById("feelings").value;
+        let lat = data.geonames[0].lat;
+        let lng = data.geonames[0].lng;
+        let country = data.geonames[0].countryName;
+        let population = data.geonames[0].population;
+        let tripStart = new Date(document.getElementById("date").value);
+        let today = new Date();
+        let daysLeft = (tripStart - today) / (1000 * 60 * 60 * 24) + 1;
+
+        console.log(daysLeft);
+
+        //let leftDays =
+        // postData("http://localhost:3000/add", {
+        //   date: newDate,
+        //   city: cityName,
+        //   temperature: temperature,
+        //   userInput: userInput,
+        //   weather: weatherDescription,
+        // });
+      });
+    //.then(updateUI);
   }
 }
 
@@ -69,7 +79,7 @@ const getApiKeys = async () => {
     console.log("error", error);
   }
 };
-const getWeatherData = async (city, apiKeys) => {
+const getGeonamesData = async (city, apiKeys) => {
   const res = await fetch(
     `${baseURL}${city}&maxRows=1&username=${apiKeys.API_GEONAMES}`
   );
