@@ -1,7 +1,7 @@
 /* Global Variables */
 // openweather url address
 const baseURL = "http://api.geonames.org/searchJSON?q=";
-
+let apiKeys = {};
 // Create a new date instance dynamically with JS
 let d = new Date();
 let strMonth = String(d.getMonth() + 1);
@@ -38,22 +38,18 @@ function performAction(e) {
     alert("Please enter city's name");
   } else {
     getApiKeys()
-      .then((apiKeys) => getGeonamesData(city, apiKeys))
-      .then(function (data) {
-        // temperature in celsius
-        // let temperature = data.main.temp.toFixed(0);
-        // let cityName = data.name;
-        // let weatherDescription = data.weather;
-
+      .then((apiKeys) => getGeonamesData(city))
+      .then((data) => {
         // let userInput = document.getElementById("feelings").value;
-        let lat = data.geonames[0].lat;
-        let lng = data.geonames[0].lng;
-        let country = data.geonames[0].countryName;
-        let population = data.geonames[0].population;
+        let resultData = {};
+        resultData["lat"] = data.geonames[0].lat;
+        resultData["lng"] = data.geonames[0].lng;
+        resultData["country"] = data.geonames[0].countryName;
+        resultData["population"] = data.geonames[0].population;
         let tripStart = new Date(document.getElementById("date").value);
         let today = new Date();
         let daysLeft = (tripStart - today) / (1000 * 60 * 60 * 24) + 1;
-
+        console.log(resultData);
         console.log(daysLeft);
 
         //let leftDays =
@@ -74,12 +70,14 @@ const getApiKeys = async () => {
 
   try {
     const keys = await res.json();
+    apiKeys = keys;
     return keys;
   } catch (error) {
     console.log("error", error);
   }
 };
-const getGeonamesData = async (city, apiKeys) => {
+
+const getGeonamesData = async (city) => {
   const res = await fetch(
     `${baseURL}${city}&maxRows=1&username=${apiKeys.API_GEONAMES}`
   );

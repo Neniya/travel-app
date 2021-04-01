@@ -2,8 +2,10 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const API_GEONAMES = process.env.API_GEONAMES;
+const API_WEATHERBIT = process.env.API_WEATHERBIT;
 let projectParameters = {
   API_GEONAMES: API_GEONAMES,
+  API_WEATHERBIT: API_WEATHERBIT,
 };
 // Setup empty JS object to act as endpoint for all routes
 let projectData = {};
