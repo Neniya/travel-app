@@ -2,6 +2,7 @@
 // openweather url address
 const baseURL = "http://api.geonames.org/searchJSON?q=";
 const baseWeatherbitURL = "https://api.weatherbit.io/v2.0/";
+const basePixabayURL = "https://pixabay.com/api/?key=";
 
 let apiKeys = {};
 // Create a new date instance dynamically with JS
@@ -46,6 +47,7 @@ function performAction(e) {
         let resultData = {};
         resultData["lat"] = data.geonames[0].lat;
         resultData["lng"] = data.geonames[0].lng;
+        resultData["city"] = data.geonames[0].name;
         resultData["country"] = data.geonames[0].countryName;
         resultData["population"] = data.geonames[0].population;
         let tripStart = new Date(document.getElementById("date").value);
@@ -97,6 +99,7 @@ const getGeonamesData = async (city) => {
 
 const getWeatherAndPicture = (inputData) => {
   getWeatherbitData(inputData).then((data) => {
+    const pictureData = getPictureData(inputData);
     console.log("data", data);
   });
 };
@@ -127,6 +130,23 @@ const getWeatherbitData = async (inputData) => {
   return data;
 };
 
+const getPictureData = async (inputData) => {
+  const cityName =
+    inputData.city.replace(" ", "+") +
+    "+" +
+    inputData.country.replace(" ", "+");
+
+  const res = await fetch(
+    `${basePixabayURL}${apiKeys.API_PIXABAY}&q=${cityName}&orientation=horizontal&category=travel&image_type=photo`
+  );
+  try {
+    const data = await res.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log("error", error);
+  }
+};
 const updateUI = async () => {
   const request = await fetch("http://localhost:3000/all");
   try {
