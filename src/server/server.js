@@ -54,10 +54,11 @@ app.get("/all", (req, res) => {
 
 app.post("/add", (req, res) => {
   projectData = {
-    date: req.body.date,
     city: req.body.city,
-    temperature: req.body.temperature,
-    userInput: req.body.userInput,
-    weather: req.body.weather,
+    country: req.body.country,
+    currentWeather: req.body.currentWeather,
+    dailyWeather: req.body.dailyWeather,
+    img_url: req.body.img_url,
+    population: req.body.population,
   };
 });
