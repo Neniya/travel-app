@@ -160,11 +160,41 @@ const updateUI = async () => {
     const serverData = await request.json();
     let tripStart = new Date(document.getElementById("date").value);
     let today = new Date();
-    let daysLeft = (tripStart - today) / (1000 * 60 * 60 * 24) + 1;
+    console.log(document.getElementById("date").value);
+    let daysLeft = Math.trunc((tripStart - today) / (1000 * 60 * 60 * 24) + 1);
+    let text_days =
+      daysLeft === 0
+        ? " today"
+        : " in " + daysLeft + " day" + (daysLeft === 1 ? "" : "s");
+    document.getElementById("days_left").innerHTML =
+      "Your trip starts" + text_days;
 
-    // document.getElementById("days_left").innerHTML =  "Now in <strong>" + serverData.city + "</strong>";;
+    document.getElementById("country").innerHTML =
+      serverData.city + ", " + serverData.country;
+    const dest_img = document.querySelector("#destination_img");
+    dest_img.style.content = "url(" + serverData.img_url + ")";
 
-    // document.getElementById("date").innerHTML = serverData.date;
+    document.querySelector("#weather_now").innerHTML =
+      "Now in " + serverData.city;
+    document.querySelector(
+      "#weather_ico"
+    ).style.content = `url("../media/icons/${serverData.currentWeather.weather.icon}.png")`;
+    document.querySelector("#current_weather_disc").innerHTML =
+      serverData.currentWeather.weather.description;
+    document.querySelector("#current_temp").innerHTML =
+      Math.trunc(serverData.currentWeather.temp) + " °C";
+
+    // if (daysLeft <=16) {
+    //     for (let i = daysLeft; Math.min(daysLeft+3, 16); i=i+1){
+
+    //     }
+    // }
+
+    //   document
+    //   .querySelector("#destination_img")
+    //   .setAttribute("src", serverData.img_url);
+    // console.log(serverData.img_url);
+    // console.log(document.getElementById("destination_img").src);
     // if (serverData.weather.length) {
     //   document.getElementById("weather").innerHTML =
     //     serverData.weather[0].description;

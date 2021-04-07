@@ -4,6 +4,7 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 //const WorkboxPlugin = require("workbox-webpack-plugin");
 
 module.exports = {
@@ -43,5 +44,11 @@ module.exports = {
       filename: "./index.html",
     }),
     new MiniCssExtractPlugin({ filename: "[name].css" }),
+    new CopyPlugin({
+      patterns: [
+        { from: "./src/client/media", to: "media" },
+        { from: "./src/client/media/icons", to: "media" },
+      ],
+    }),
   ],
 };

@@ -62,8 +62,7 @@ label {
   /*font-size: 100%;*/
 }
 
-input,
-date {
+input {
   /*display: block;*/
   height: 60px;
   width: 220px;
@@ -116,6 +115,25 @@ button,
 #data .entry,
 .myInput {
   border-radius: 12px;
+}
+
+#description {
+  margin: 10px;
+  font-size: 130%;
+}
+
+.weather_descr {
+  font-size: 80%;
+}
+
+.temp {
+  font-size: 150%;
+}
+
+#current_weather {
+  margin-top: 10px;
+  background-color: #ffffff1a;
+  padding: 10px;
 }
 
 @media (min-width: 800px) {
