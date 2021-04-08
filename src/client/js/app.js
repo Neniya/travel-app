@@ -1,20 +1,11 @@
 /* Global Variables */
-// openweather url address
+// base API url addresses
 const baseURL = "http://api.geonames.org/searchJSON?q=";
 const baseWeatherbitURL = "https://api.weatherbit.io/v2.0/";
 const basePixabayURL = "https://pixabay.com/api/?key=";
 
 let apiKeys = {};
-// Create a new date instance dynamically with JS
-let d = new Date();
-let strMonth = String(d.getMonth() + 1);
-// Format dd.mm.yyyy
-let newDate =
-  d.getDate() +
-  "." +
-  (strMonth.length == 1 ? "0" + strMonth : strMonth) +
-  "." +
-  d.getFullYear();
+
 const postData = async (url = "", data = {}) => {
   const response = await fetch(url, {
     method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -32,16 +23,16 @@ const postData = async (url = "", data = {}) => {
   }
 };
 
-//get
-//document.getElementById("generate").addEventListener("click", performAction);
-
 function performAction(e) {
+  // check if input data is correct
   const city = document.getElementById("city").value;
   const tripStartText = document.getElementById("date").value;
   const tripStart = new Date(tripStartText);
   const today = new Date();
+  //set zerro time for correct computation
   tripStart.setHours(0, 0, 0, 0);
   today.setHours(0, 0, 0, 0);
+
   if (city.length === 0) {
     alert("Please enter city's name");
   } else if (!tripStartText) {
@@ -49,11 +40,12 @@ function performAction(e) {
   } else if (tripStart < today) {
     alert("Please enter the future date");
   } else {
+    // let's start if data is correct
     let resultData = {};
+
     getApiKeys()
       .then(() => getGeonamesData(city))
       .then((data) => {
-        // let userInput = document.getElementById("feelings").value;
         resultData["lat"] = data.geonames[0].lat;
         resultData["lng"] = data.geonames[0].lng;
         resultData["city"] = data.geonames[0].name;
@@ -147,10 +139,12 @@ const getWeatherbitData = async (inputData) => {
 };
 
 const getPictureData = async (inputData) => {
+  // if there is spaces in city's or/and name we have to chage
+  // them to "-" for correct searching
   const cityName =
-    inputData.city.replace(" ", "+") +
+    inputData.city.replaceAll(" ", "+") +
     "+" +
-    inputData.country.replace(" ", "+");
+    inputData.country.replaceAll(" ", "+");
 
   const res = await fetch(
     `${basePixabayURL}${apiKeys.API_PIXABAY}&q=${cityName}&orientation=horizontal&category=places&image_type=photo`
@@ -229,19 +223,6 @@ const updateUI = async (tripStart, today) => {
         ).style.content = `url("../media/icons/${thisDayWeather.weather.icon}.png")`;
       }
     }
-
-    //   document
-    //   .querySelector("#destination_img")
-    //   .setAttribute("src", serverData.img_url);
-    // console.log(serverData.img_url);
-    // console.log(document.getElementById("destination_img").src);
-    // if (serverData.weather.length) {
-    //   document.getElementById("weather").innerHTML =
-    //     serverData.weather[0].description;
-    // }
-    // document.getElementById("temp").innerHTML =
-    //   "<h1>" + serverData.temperature + "° C" + "</h1>";
-    // document.getElementById("content").innerHTML = serverData.userInput;
   } catch (error) {
     console.log("error", error);
   }
