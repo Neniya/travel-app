@@ -34,7 +34,8 @@ body {
   background: #3b4a6bb0;
 }
 
-#entryHolder {
+#entryHolder,
+#weather_forecast {
   display: flex;
   flex-direction: row;
 }
@@ -130,10 +131,16 @@ button,
   font-size: 150%;
 }
 
-#current_weather {
-  margin-top: 10px;
+#current_weather,
+.weather_descr {
+  margin: 2px;
   background-color: #ffffff1a;
   padding: 10px;
+  border-radius: 12px;
+}
+
+.weather_day_icon {
+  block-size: 3em;
 }
 
 @media (min-width: 800px) {

@@ -184,11 +184,28 @@ const updateUI = async () => {
     document.querySelector("#current_temp").innerHTML =
       Math.trunc(serverData.currentWeather.temp) + " °C";
 
-    // if (daysLeft <=16) {
-    //     for (let i = daysLeft; Math.min(daysLeft+3, 16); i=i+1){
+    const weatherForecast = document.querySelector("#weather_forecast");
+    weatherForecast.innerHTML = "";
+    if (daysLeft <= 16) {
+      for (let i = daysLeft; i < Math.min(daysLeft + 3, 16); i = i + 1) {
+        const thisDayWeather = serverData.dailyWeather[i];
+        const htmlTextToAdd = `<div class="weather_descr">
+              <div id="weather${i}">${thisDayWeather.datetime}</div>
+              <img id="weather_ico${i}" class = "weather_day_icon"/>
+              <div id="day_weather_disc${i}">${
+          thisDayWeather.weather.description
+        }</div>
+              <div class="temp" id="day_temp${i}">${
+          Math.trunc(thisDayWeather.temp) + " °C"
+        }</div>
+            </div>`;
+        weatherForecast.insertAdjacentHTML("beforeend", htmlTextToAdd);
 
-    //     }
-    // }
+        document.querySelector(
+          `#weather_ico${i}`
+        ).style.content = `url("../media/icons/${thisDayWeather.weather.icon}.png")`;
+      }
+    }
 
     //   document
     //   .querySelector("#destination_img")
