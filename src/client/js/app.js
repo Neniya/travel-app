@@ -167,7 +167,7 @@ const updateUI = async (tripStart, today) => {
   const request = await fetch("http://localhost:3000/all");
   try {
     const serverData = await request.json();
-
+    /* days left to trip's start*/
     let daysLeft = Math.trunc((tripStart - today) / (1000 * 60 * 60 * 24));
     let text_days =
       daysLeft === 0
@@ -176,13 +176,18 @@ const updateUI = async (tripStart, today) => {
     document.getElementById("days_left").innerHTML =
       "Your trip starts" + text_days;
 
+    /* country */
     document.getElementById("country").innerHTML =
       serverData.city + ", " + serverData.country;
+
+    /* image of place of destination */
     const dest_img = document.querySelector("#destination_img");
     dest_img.style.content = "url(" + serverData.img_url + ")";
 
+    /* today's weather */
     document.querySelector("#weather_now").innerHTML =
       "Now in " + serverData.city;
+    // set weather's icon via style
     document.querySelector(
       "#weather_ico"
     ).style.content = `url("../media/icons/${serverData.currentWeather.weather.icon}.png")`;
@@ -191,13 +196,24 @@ const updateUI = async (tripStart, today) => {
     document.querySelector("#current_temp").innerHTML =
       Math.trunc(serverData.currentWeather.temp) + " °C";
 
+    /* Wearther forecast */
     const weatherForecast = document.querySelector("#weather_forecast");
+    //clear weather forecast section
     weatherForecast.innerHTML = "";
+    //check if there is information. There is forecast only for next 16 days
     if (daysLeft <= 16) {
+      //give weather information for 3 days from trip's start or
+      //for as many days as possible, considering that there is
+      //weatheforecast only for next 16 days
       for (let i = daysLeft; i < Math.min(daysLeft + 3, 16); i = i + 1) {
         const thisDayWeather = serverData.dailyWeather[i];
+        //get the date of day in local format
+        const daydate = new Date(thisDayWeather.datetime)
+          .toLocaleDateString()
+          .replaceAll("/", ".");
+        // block of html text for weather forecast
         const htmlTextToAdd = `<div class="weather_descr">
-              <div id="weather${i}">${thisDayWeather.datetime}</div>
+              <div id="weather${i}">${daydate}</div>
               <img id="weather_ico${i}" class = "weather_day_icon"/>
               <div id="day_weather_disc${i}">${
           thisDayWeather.weather.description
@@ -207,7 +223,7 @@ const updateUI = async (tripStart, today) => {
         }</div>
             </div>`;
         weatherForecast.insertAdjacentHTML("beforeend", htmlTextToAdd);
-
+        // set icon's url via style
         document.querySelector(
           `#weather_ico${i}`
         ).style.content = `url("../media/icons/${thisDayWeather.weather.icon}.png")`;
