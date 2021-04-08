@@ -37,8 +37,17 @@ const postData = async (url = "", data = {}) => {
 
 function performAction(e) {
   const city = document.getElementById("city").value;
+  const tripStartText = document.getElementById("date").value;
+  const tripStart = new Date(tripStartText);
+  const today = new Date();
+  tripStart.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
   if (city.length === 0) {
     alert("Please enter city's name");
+  } else if (!tripStartText) {
+    alert("Please enter the date when your trip starts");
+  } else if (tripStart < today) {
+    alert("Please enter the future date");
   } else {
     let resultData = {};
     getApiKeys()
@@ -77,7 +86,7 @@ function performAction(e) {
           population: resultData.population,
         });
       })
-      .then(updateUI);
+      .then(updateUI(tripStart, today));
   }
 }
 
@@ -154,14 +163,12 @@ const getPictureData = async (inputData) => {
     console.log("error", error);
   }
 };
-const updateUI = async () => {
+const updateUI = async (tripStart, today) => {
   const request = await fetch("http://localhost:3000/all");
   try {
     const serverData = await request.json();
-    let tripStart = new Date(document.getElementById("date").value);
-    let today = new Date();
-    console.log(document.getElementById("date").value);
-    let daysLeft = Math.trunc((tripStart - today) / (1000 * 60 * 60 * 24) + 1);
+
+    let daysLeft = Math.trunc((tripStart - today) / (1000 * 60 * 60 * 24));
     let text_days =
       daysLeft === 0
         ? " today"
