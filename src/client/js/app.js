@@ -46,6 +46,12 @@ function performAction(e) {
     getApiKeys()
       .then(() => getGeonamesData(city))
       .then((data) => {
+        console.log(data);
+        if (!data.geonames.length) {
+          alert(
+            "The data for the city wasn't found. Please check city's name."
+          );
+        }
         resultData["lat"] = data.geonames[0].lat;
         resultData["lng"] = data.geonames[0].lng;
         resultData["city"] = data.geonames[0].name;
@@ -66,7 +72,12 @@ function performAction(e) {
       })
       .then((pictureData) => {
         console.log("pic", pictureData);
-        resultData["img_url"] = pictureData.hits[0].webformatURL;
+        // if picture wasn't found than use base picture
+        if (pictureData.hits.length) {
+          resultData["img_url"] = pictureData.hits[0].webformatURL;
+        } else {
+          resultData["img_url"] = "../media/map_of_the_world.jpg";
+        }
         console.log("data", resultData);
 
         postData("http://localhost:3000/add", {
