@@ -46,7 +46,6 @@ function performAction(e) {
     getApiKeys()
       .then(() => getGeonamesData(city))
       .then((data) => {
-        console.log(data);
         if (!data.geonames.length) {
           alert(
             "The data for the city wasn't found. Please check city's name."
@@ -58,27 +57,22 @@ function performAction(e) {
         resultData["country"] = data.geonames[0].countryName;
         resultData["population"] = data.geonames[0].population;
 
-        console.log(resultData);
-
         return resultData;
       })
       .then((resultData) => getWeatherbitData(resultData))
       .then((data) => {
         resultData["currentWeather"] = data.currentWeather;
-        console.log(data);
         resultData["dailyWeather"] = data.dailyWeather;
         const pictureData = getPictureData(resultData);
         return pictureData;
       })
       .then((pictureData) => {
-        console.log("pic", pictureData);
         // if picture wasn't found than use base picture
         if (pictureData.hits.length) {
           resultData["img_url"] = pictureData.hits[0].webformatURL;
         } else {
           resultData["img_url"] = "../media/map_of_the_world.jpg";
         }
-        console.log("data", resultData);
 
         postData("http://localhost:3000/add", {
           city: resultData.city,
@@ -109,10 +103,8 @@ const getGeonamesData = async (city) => {
   const res = await fetch(
     `${baseURL}${city}&maxRows=1&username=${apiKeys.API_GEONAMES}`
   );
-  console.log("got API");
   try {
     const data = await res.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.log("error", error);
@@ -130,7 +122,6 @@ const getWeatherbitData = async (inputData) => {
   );
   try {
     const currentWeather = await res.json();
-    console.log(currentWeather.data[0]);
     data["currentWeather"] = currentWeather.data[0];
   } catch (error) {
     console.log("error", error);
@@ -141,7 +132,6 @@ const getWeatherbitData = async (inputData) => {
   );
   try {
     const dailyWeather = await res_forecast.json();
-    console.log(dailyWeather.data);
     data["dailyWeather"] = dailyWeather.data;
   } catch (error) {
     console.log("error", error);
@@ -162,7 +152,6 @@ const getPictureData = async (inputData) => {
   );
   try {
     const data = await res.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.log("error", error);
