@@ -42,6 +42,7 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: "./src/client/views/index.html",
       filename: "./index.html",
+      minify: false,
     }),
     new MiniCssExtractPlugin({ filename: "[name].css" }),
     new CopyPlugin({

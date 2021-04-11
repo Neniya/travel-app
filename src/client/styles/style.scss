@@ -1,3 +1,12 @@
+%blue-shape {
+  border-radius: 12px;
+  background: #3b4a6b;
+}
+
+$darkgrey-color: #505050;
+$weather-background-color: #ffffff1a;
+$primary-text-color: #eec5aa;
+
 body {
   background-image: url(../media/background.jpg);
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
@@ -9,17 +18,11 @@ body {
   margin-top: 100px;
   text-align: center;
   height: 85vh;
-  // background: #53060671;
-  color: #eec5aa;
+  color: $primary-text-color;
   justify-content: center;
   font-size: 20px;
   font-family: sans-serif, "Oswald";
   border-radius: 12px;
-}
-#destination_info {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
 }
 
 .holder {
@@ -29,15 +32,8 @@ body {
 .entry {
   text-align: center;
   min-height: 100px;
-  margin: 20px 70px;
-  border-radius: 12px;
   background: #3b4a6bb0;
-}
-
-#entryHolder,
-#weather_forecast {
-  display: flex;
-  flex-direction: row;
+  margin: 30px 0;
 }
 
 #temp {
@@ -47,14 +43,6 @@ body {
 #content {
   margin-top: 10px;
   font-size: 80%;
-}
-
-.headline {
-  padding-top: 0;
-}
-
-#zip {
-  height: 50px;
 }
 
 /*  Basic Styling To Override Default For Basic HTML Elements */
@@ -68,19 +56,18 @@ input {
   height: 60px;
   width: 220px;
   background: #ffffff7c;
-  color: #505050;
+  color: $darkgrey-color;
   font-size: 20px;
   /*font-family: sans-serif, "Oswald";*/
   border: none;
 }
 
 button {
+  @extend %blue-shape;
   width: 200px;
   height: 50px;
-  background: #3b4a6b;
-  color: #eec5aa;
+  color: $primary-text-color;
   font-size: 26px;
-  /*font-family: sans-serif, "Oswald";*/
   border: none;
   box-shadow: 2px 4px 5px #444;
 }
@@ -92,11 +79,10 @@ h1 {
 
 textarea {
   background: #ffffff7c;
-  color: #505050;
+  color: $darkgrey-color;
   font-size: 20px;
   max-width: 300px;
   height: 100px;
-  /*font-family: sans-serif, "Oswald";*/
 }
 /* Reset style for HTML element on active to have no border*/
 input:focus,
@@ -108,19 +94,22 @@ button:focus {
 
 #destination_img {
   content: url(../media/map_of_the_world.jpg);
-  max-width: 500px;
+  /*max-width: 300px;*/
 }
 /* Set border radius for alements */
-button,
-#city,
-#data .entry,
-.myInput {
-  border-radius: 12px;
-}
 
 #description {
   margin: 10px;
   font-size: 130%;
+}
+
+#current_weather {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#weather_forecast {
+  text-align: center;
 }
 
 .weather_descr {
@@ -131,34 +120,108 @@ button,
   font-size: 150%;
 }
 
-#current_weather,
+#current_weather {
+  width: 200px;
+}
 .weather_descr {
   margin: 2px;
-  background-color: #ffffff1a;
+  background-color: $weather-background-color;
   padding: 10px;
   border-radius: 12px;
+  width: 150px;
+}
+
+#destination_img {
+  max-width: 500px;
+  height: auto;
 }
 
 .weather_day_icon {
   block-size: 3em;
 }
 
-@media (min-width: 800px) {
-  #app {
-    //width: 400px;
+@media (min-width: 1100px) {
+  #entryHolder,
+  #weather_forecast {
+    display: flex;
+    flex-direction: row;
   }
+}
 
+@media (min-width: 900px) {
   h1 {
     font-size: 36px;
   }
+
+  #entryHolder {
+    display: flex;
+    flex-direction: row;
+  }
+
+  #weather_forecast {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
 }
 
-@media (min-width: 300px) and (max-width: 800px) {
+@media (max-width: 970px) {
   #app {
-    //width: 350px;
+    font-size: 95%;
+    margin-top: 30px;
+  }
+  .weather_descr {
+    width: 130px;
+  }
+}
+@media (max-width: 1100px) {
+  #destination_img {
+    max-width: 400px;
+    height: auto;
+  }
+}
+
+@media (max-width: 400px) {
+  #destination_img {
+    max-width: 300px;
+    height: auto;
+  }
+}
+@media (min-width: 300px) {
+  %display-flex-row-center {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  #destination_info {
+    @extend %display-flex-row-center;
+  }
+  #weather_forecast {
+    @extend %display-flex-row-center;
   }
 }
 /* Style for Placeholder Text*/
+::-webkit-input-placeholder {
+  /* Firefox, Chrome, Opera */
+  color: grey;
+  font-family: sans-serif, "Oswald";
+}
+::-moz-placeholder {
+  /* Firefox, Chrome, Opera */
+  color: grey;
+  font-family: sans-serif, "Oswald";
+}
+:-ms-input-placeholder {
+  /* Firefox, Chrome, Opera */
+  color: grey;
+  font-family: sans-serif, "Oswald";
+}
+::-ms-input-placeholder {
+  /* Firefox, Chrome, Opera */
+  color: grey;
+  font-family: sans-serif, "Oswald";
+}
 ::placeholder {
   /* Firefox, Chrome, Opera */
   color: grey;
