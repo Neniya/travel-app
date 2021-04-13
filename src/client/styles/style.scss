@@ -48,17 +48,14 @@ body {
 /*  Basic Styling To Override Default For Basic HTML Elements */
 label {
   display: block;
-  /*font-size: 100%;*/
 }
 
 input {
-  /*display: block;*/
   height: 60px;
   width: 220px;
   background: #ffffff7c;
   color: $darkgrey-color;
   font-size: 20px;
-  /*font-family: sans-serif, "Oswald";*/
   border: none;
 }
 
@@ -138,6 +135,15 @@ button:focus {
 
 .weather_day_icon {
   block-size: 3em;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: darkblue;
+}
+
+input:hover {
+  background-color: #ece4c1a8;
 }
 
 @media (min-width: 1100px) {
