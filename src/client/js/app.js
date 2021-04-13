@@ -23,7 +23,7 @@ const postData = async (url = "", data = {}) => {
   }
 };
 
-function performAction(e) {
+const performAction = (e) => {
   // check if input data is correct
   const city = document.getElementById("city").value;
   const tripStartText = document.getElementById("date").value;
@@ -56,7 +56,6 @@ function performAction(e) {
         resultData["city"] = data.geonames[0].name;
         resultData["country"] = data.geonames[0].countryName;
         resultData["population"] = data.geonames[0].population;
-
         return resultData;
       })
       .then((resultData) => getWeatherbitData(resultData))
@@ -85,7 +84,7 @@ function performAction(e) {
       })
       .then(updateUI(tripStart, today));
   }
-}
+};
 
 const getApiKeys = async () => {
   const res = await fetch("http://localhost:3000/get_parameters");
@@ -111,9 +110,6 @@ const getGeonamesData = async (city) => {
   }
 };
 
-const getWeatherAndPicture = (inputData) => {
-  let resultData = inputData;
-};
 const getWeatherbitData = async (inputData) => {
   let data = {};
   //get current weather
@@ -158,6 +154,8 @@ const getPictureData = async (inputData) => {
   }
 };
 const updateUI = async (tripStart, today) => {
+  //add timer. we need to get all data before show it.
+  await wait(2000);
   const request = await fetch("http://localhost:3000/all");
   try {
     const serverData = await request.json();
@@ -226,6 +224,11 @@ const updateUI = async (tripStart, today) => {
   } catch (error) {
     console.log("error", error);
   }
+};
+
+// wait ms milliseconds
+const wait = (ms) => {
+  return new Promise((r) => setTimeout(r, ms));
 };
 
 export { performAction };
