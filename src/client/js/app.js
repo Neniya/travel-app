@@ -1,3 +1,5 @@
+import { checkInputData } from "./checkData";
+
 /* Global Variables */
 // base API url addresses
 const baseURL = "http://api.geonames.org/searchJSON?q=";
@@ -33,12 +35,9 @@ const performAction = (e) => {
   tripStart.setHours(0, 0, 0, 0);
   today.setHours(0, 0, 0, 0);
 
-  if (city.length === 0) {
-    alert("Please enter city's name");
-  } else if (!tripStartText) {
-    alert("Please enter the date when your trip starts");
-  } else if (tripStart < today) {
-    alert("Please enter the future date");
+  const message = checkInputData(city, tripStartText, tripStart, today);
+  if (message) {
+    alert(message);
   } else {
     // let's start if data is correct
     let resultData = {};

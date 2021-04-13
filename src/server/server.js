@@ -1,15 +1,6 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
-const API_GEONAMES = process.env.API_GEONAMES;
-const API_WEATHERBIT = process.env.API_WEATHERBIT;
-const API_PIXABAY = process.env.API_PIXABAY;
-
-let projectParameters = {
-  API_GEONAMES: API_GEONAMES,
-  API_WEATHERBIT: API_WEATHERBIT,
-  API_PIXABAY: API_PIXABAY,
-};
 // Setup empty JS object to act as endpoint for all routes
 let projectData = {};
 
@@ -43,7 +34,7 @@ const server = app.listen(port, () => {
 });
 
 app.get("/get_parameters", (req, res) => {
-  res.send(projectParameters);
+  res.send(getProjectParameters());
 });
 
 app.get("/all", (req, res) => {
@@ -60,3 +51,19 @@ app.post("/add", (req, res) => {
     population: req.body.population,
   };
 });
+
+const getProjectParameters = () => {
+  const API_GEONAMES = process.env.API_GEONAMES;
+  const API_WEATHERBIT = process.env.API_WEATHERBIT;
+  const API_PIXABAY = process.env.API_PIXABAY;
+
+  let projectParameters = {
+    API_GEONAMES: API_GEONAMES,
+    API_WEATHERBIT: API_WEATHERBIT,
+    API_PIXABAY: API_PIXABAY,
+  };
+
+  return projectParameters;
+};
+
+module.exports = { getProjectParameters };
