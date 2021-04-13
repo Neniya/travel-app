@@ -159,6 +159,7 @@ const updateUI = async (tripStart, today) => {
   const request = await fetch("http://localhost:3000/all");
   try {
     const serverData = await request.json();
+
     /* days left to trip's start*/
     let daysLeft = Math.trunc((tripStart - today) / (1000 * 60 * 60 * 24));
     let text_days =

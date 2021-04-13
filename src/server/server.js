@@ -43,8 +43,6 @@ const server = app.listen(port, () => {
 });
 
 app.get("/get_parameters", (req, res) => {
-  console.log(projectParameters);
-  console.log(projectParameters.API_KEY);
   res.send(projectParameters);
 });
 

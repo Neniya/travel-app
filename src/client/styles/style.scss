@@ -84,6 +84,7 @@ textarea {
   max-width: 300px;
   height: 100px;
 }
+
 /* Reset style for HTML element on active to have no border*/
 input:focus,
 select:focus,
@@ -94,9 +95,7 @@ button:focus {
 
 #destination_img {
   content: url(../media/map_of_the_world.jpg);
-  /*max-width: 300px;*/
 }
-/* Set border radius for alements */
 
 #description {
   margin: 10px;
@@ -123,6 +122,7 @@ button:focus {
 #current_weather {
   width: 200px;
 }
+
 .weather_descr {
   margin: 2px;
   background-color: $weather-background-color;
@@ -170,10 +170,12 @@ button:focus {
     font-size: 95%;
     margin-top: 30px;
   }
+
   .weather_descr {
     width: 130px;
   }
 }
+
 @media (max-width: 1100px) {
   #destination_img {
     max-width: 400px;
@@ -197,6 +199,7 @@ button:focus {
   #destination_info {
     @extend %display-flex-row-center;
   }
+
   #weather_forecast {
     @extend %display-flex-row-center;
   }
