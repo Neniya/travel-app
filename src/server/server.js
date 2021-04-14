@@ -22,7 +22,7 @@ app.use(cors());
 
 // Initialize the main project folder
 //app.use(express.static("src/client"));
-app.use(express.static("dist"));
+app.use(express.static("./dist"));
 
 app.get("/", function (req, res) {
   res.sendFile("/client/views/index.html", { root: __dirname + "/.." });

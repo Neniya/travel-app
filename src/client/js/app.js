@@ -35,7 +35,7 @@ const performAction = (e) => {
   tripStart.setHours(0, 0, 0, 0);
   today.setHours(0, 0, 0, 0);
 
-  const message = checkInputData(city, tripStartText, tripStart, today);
+  const message = Client.checkInputData(city, tripStartText, tripStart, today);
   if (message) {
     alert(message);
   } else {

@@ -4,10 +4,6 @@
     <meta charset="UTF-8" />
     <meta ="viewport" content="width=device-width, initial-scale=1" />
     <title>Travel App</title>
-    <link
-      href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap"
-      rel="stylesheet"
-    />
   </head>
   <body>
     <div id="app">
@@ -49,5 +45,14 @@
         </div>
       </div>
     </div>
+    <script>
+      // Check that service workers are supported
+      if ("serviceWorker" in navigator) {
+        // Use the window load event to keep the page load performant
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("/service-worker.js");
+        });
+      }
+    </script>
   </body>
 </html>
